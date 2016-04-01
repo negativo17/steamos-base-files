@@ -1,0 +1,14 @@
+#! /bin/sh
+
+echo $$ > /tmp/steamos-update.pid
+
+dnf -y update
+
+# signal steam to refresh its inbox if we need a reboot
+if [ -f /var/run/reboot-required ] && [ "`pidof steam`" != '' ] ; then
+    STEAMPID=`pidof steam`
+    STEAMUSER=`ps -p $STEAMPID -o user=`
+    su $STEAMUSER -c steam steam://refreshinbox
+fi
+
+rm -f /tmp/steamos-update.pid
