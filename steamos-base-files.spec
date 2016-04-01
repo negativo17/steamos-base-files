@@ -1,11 +1,11 @@
 Name:           steamos-base-files
-Version:        2.49
+Version:        2.51
 Release:        1%{?dist}
 Summary:        Files specific to the SteamOS distribution
 
 License:        BSD
 URL:            http://store.steampowered.com/steamos/
-Source0:        http://repo.steampowered.com/steamos/pool/main/s/%{name}/%{name}_%{version}.tar.gz
+Source0:        http://repo.steampowered.com/steamos/pool/main/s/%{name}/%{name}_%{version}.tar.xz
 # Modified script for Fedora, inspired by original steamos-update package
 Source1:        steamos-update
 
@@ -76,6 +76,9 @@ find %{buildroot} -name "*bugreport*" -delete
 %{_sysconfdir}/sudoers.d/*
 
 %changelog
+* Fri Apr 01 2016 Simone Caronni <negativo17@gmail.com> - 2.51-1
+- Update to 2.51.
+
 * Sat Oct 31 2015 Simone Caronni <negativo17@gmail.com> - 2.49-1
 - Update to version 2.49.
 - Use dnf in steamos-update for Fedora 22+.
