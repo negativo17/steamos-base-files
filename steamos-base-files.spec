@@ -19,7 +19,7 @@ This package contains files specific to the SteamOS experience, particularly
 systemd login policies and additional commands.
 
 %prep
-%setup -q -n %{name}-%{version}+steamos1
+%setup -q -n %{name}-2.53+steamos1
 
 %install
 mkdir -p %{buildroot}%{_bindir}/
