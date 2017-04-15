@@ -1,18 +1,17 @@
 Name:           steamos-base-files
-Version:        2.51
+Version:        2.54
 Release:        1%{?dist}
 Summary:        Files specific to the SteamOS distribution
 
 License:        BSD
 URL:            http://store.steampowered.com/steamos/
-Source0:        http://repo.steampowered.com/steamos/pool/main/s/%{name}/%{name}_%{version}.tar.xz
-# Modified script for Fedora, inspired by original steamos-update package
-Source1:        steamos-update
+Source0:        http://repo.steampowered.com/steamos/pool/main/s/%{name}/%{name}_%{version}.tar.gz
 
 BuildArch:      noarch
 
 Requires:       glib2
 Requires:       polkit-pkla-compat
+Requires:       steamos-backgrounds
 Requires:       sudo
 
 %description
@@ -20,12 +19,7 @@ This package contains files specific to the SteamOS experience, particularly
 systemd login policies and additional commands.
 
 %prep
-%setup -q
-cp %{SOURCE1} .%{_bindir}/
-
-%if 0%{?fedora} == 21 || 0%{?rhel} == 7
-sed -i -e 's/dnf/yum/g' .%{_bindir}/steamos-update
-%endif    
+%setup -q -n %{name}-%{version}+steamos1
 
 %install
 mkdir -p %{buildroot}%{_bindir}/
@@ -66,7 +60,6 @@ find %{buildroot} -name "*bugreport*" -delete
 %{_bindir}/alienware_wmi_control.sh
 %{_bindir}/returntosteam.sh
 %{_bindir}/steamkillall.sh
-%{_bindir}/steamos-update
 %{_bindir}/steam_serialnumber.sh
 %{_datadir}/glib-2.0/schemas/*
 %{_sharedstatedir}/polkit-1/localauthority/50-local.d/*
@@ -76,6 +69,11 @@ find %{buildroot} -name "*bugreport*" -delete
 %{_sysconfdir}/sudoers.d/*
 
 %changelog
+* Sat Apr 15 2017 Simone Caronni <negativo17@gmail.com> - 2.54-1
+- Update to 2.54.
+- Require steamos-backgrounds for main session.
+- Remove steamos-update script.
+
 * Fri Apr 01 2016 Simone Caronni <negativo17@gmail.com> - 2.51-1
 - Update to 2.51.
 
