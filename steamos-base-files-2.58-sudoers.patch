@@ -1,0 +1,12 @@
+diff -Naur steamos-base-files-2.58.old/etc/sudoers.d/alienware_wmi_control steamos-base-files-2.58/etc/sudoers.d/alienware_wmi_control
+--- steamos-base-files-2.58.old/etc/sudoers.d/alienware_wmi_control	2019-01-28 20:41:55.057942607 +0100
++++ steamos-base-files-2.58/etc/sudoers.d/alienware_wmi_control	2019-01-28 20:42:10.347217063 +0100
+@@ -1 +1 @@
+-steam ALL= NOPASSWD: /usr/bin/alienware_wmi_control.sh
++ALL ALL= NOPASSWD: /usr/bin/alienware_wmi_control.sh
+diff -Naur steamos-base-files-2.58.old/etc/sudoers.d/steam_serialnumber steamos-base-files-2.58/etc/sudoers.d/steam_serialnumber
+--- steamos-base-files-2.58.old/etc/sudoers.d/steam_serialnumber	2019-01-28 20:41:55.057942607 +0100
++++ steamos-base-files-2.58/etc/sudoers.d/steam_serialnumber	2019-01-28 20:42:13.868280268 +0100
+@@ -1 +1 @@
+-steam ALL= NOPASSWD: /usr/bin/steam_serialnumber.sh
++ALL ALL= NOPASSWD: /usr/bin/steam_serialnumber.sh
