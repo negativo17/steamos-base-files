@@ -8,7 +8,7 @@
 
 Name:           steamos-base-files
 Version:        2.58
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Files specific to the SteamOS distribution
 License:        BSD
 URL:            http://store.steampowered.com/steamos/
@@ -19,11 +19,14 @@ Patch0:         steamos-base-files-2.58-sudoers.patch
 
 BuildArch:      noarch
 
-%{?_with_ffmpeg:
+BuildRequires:  fontpackages-devel
+
+%{?_with_gschema:
 Requires:       glib2
 Requires:       steamos-backgrounds
 }
 
+Requires:       dejavu-sans-fonts
 Requires:       polkit-pkla-compat
 Requires:       steamos-compositor
 Requires:       sudo
@@ -43,7 +46,7 @@ mkdir -p %{buildroot}%{_sysconfdir}/sudoers.d/
 install -p -m644 .%{_sysconfdir}/sudoers.d/* \
     %{buildroot}%{_sysconfdir}/sudoers.d/
 
-%{?_with_ffmpeg:
+%{?_with_gschema:
 mkdir -p %{buildroot}%{_datadir}/glib-2.0/schemas/
 install -p -m644 .%{_datadir}/glib-2.0/schemas/10_steam.gschema.override \
     %{buildroot}%{_datadir}/glib-2.0/schemas/
@@ -60,15 +63,21 @@ install -p -m644 .%{_sysconfdir}/polkit-1/localauthority.conf.d/51-steamos-admin
 rm -f %{buildroot}%{_bindir}/{chrony-shutdown,steamos-autorepair.sh,bugreport.sh}
 rm -f %{buildroot}%{_sysconfdir}/sudoers.d/valve-bugreporter
 
+# Workaround for bug:
+# https://github.com/ValveSoftware/steam-for-linux/issues/5421
+install -m 0755 -d %{buildroot}%{_fontdir}/truetype
+ln -s %{_fontdir}/dejavu %{buildroot}%{_fontdir}/truetype/ttf-dejavu
+
 %files
 %doc debian/copyright debian/changelog
 %{_bindir}/alienware_wmi_control.sh
 %{_bindir}/returntosteam.sh
 %{_bindir}/steamkillall.sh
 %{_bindir}/steam_serialnumber.sh
-%{?_with_ffmpeg:
+%{?_with_gschema:
 %{_datadir}/glib-2.0/schemas/10_steam.gschema.override
 }
+%{_fontdir}/truetype
 %{_sharedstatedir}/polkit-1/localauthority/50-local.d/10-network-manager.pkla
 %{_sharedstatedir}/polkit-1/localauthority/50-local.d/20-all-user-stop.pkla
 %{_sharedstatedir}/polkit-1/localauthority/50-local.d/30-all-user-restart.pkla
@@ -79,6 +88,11 @@ rm -f %{buildroot}%{_sysconfdir}/sudoers.d/valve-bugreporter
 %{_sysconfdir}/sudoers.d/alienware_wmi_control
 
 %changelog
+* Sun Jul 28 2019 Simone Caronni <negativo17@gmail.com> - 2.58-2
+- Fix typo.
+- Add workaround for Valve bug (thanks Ethan Lee):
+  https://github.com/ValveSoftware/steam-for-linux/issues/5421
+
 * Sun Jan 27 2019 Simone Caronni <negativo17@gmail.com> - 2.58-1
 - Update to 2.58.
 - Update SPEC file.
